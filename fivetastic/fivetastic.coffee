@@ -236,7 +236,6 @@ class FiveTastic
   editor_template: ->
     "
     <nav id='dev_controls'> 
-      Edit:
       <a data-file='views/layout.haml'>Layout</a>
       <a data-file='views/index.haml'>Page</a>
       <a data-file='sass/app.sass'>Style</a>

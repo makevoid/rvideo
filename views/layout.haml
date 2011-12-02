@@ -1,20 +1,16 @@
 -# contents in #head and #body will be appended to head and body tags in index.html, same thing for #title
 %div
   #head
-    #title FiveTastic
+    #title RiotVan Video
     %link{ type: "text/sass", href: "/sass/reset.sass" }
     %link{ type: "text/sass", href: "/sass/app.sass" }
     %link{ type: "text/sass", href: "/sass/theme_red.sass", id: "theme" }
   #body
     #container
       %header
-        .themes
-          %p sass themes:
-          %button.red
-          %button.blue
-          
         %h1 
-          %a{ href: "/" } FiveTastic
+          / %a{ href: "/" } RiotVan
+          %img{ src: "images/logo.png" }
           
         %nav
           %a{ href: "/" } Home

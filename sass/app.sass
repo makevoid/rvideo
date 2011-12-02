@@ -6,14 +6,17 @@
 // this is your main css file, loaded after reset.sass feel free to delete everything and write your own styles
 
 !text_color2 = #FFF
+!main_c = #222
 
 +rounded
   border-radius: 10px
   -webkit-border-radius: 10px
   -moz-border-radius: 10px
 
+!side_margin = 4%
+
 body
-  background: #eaeaea
+  background: #fefefe
   font-family: Georgia, Helvetica, Arial, Verdana
   
 button
@@ -24,17 +27,29 @@ body
   
 #container
   margin: 20px auto
-  width: 92%
+
+
+#content
+  margin: 0 !side_margin
   
+h1 
+  img
+    width: 300px
+    margin: 0 !side_margin
+
 nav
-  margin: 8px 0 30px
+  background: !main_c
+  padding: 8px 20px
+  margin: 8px 0 !side_margin
   a
     margin: 0 10px 0 0
     color: !text_color2
     padding: 4px 10px
     +rounded
+    background: !main_c
   a:hover  
     color: #ddd
+    background: #555 // !main_c + #222 // +shift_color(!main_c)
     
 ul
   margin: 10px 0 20px
@@ -54,6 +69,7 @@ p
   padding: 2px 9px
   margin: 0 0 15px 0
   +rounded
+  background: !main_c
 
 ul span
   color: #333
@@ -71,3 +87,10 @@ ul span
   .blue
     background: #00F
   
+  
+
+a, h2, h3, span
+  color: !main_c
+
+.box, nav a
+  background: !main_c
