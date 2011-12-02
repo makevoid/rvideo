@@ -1,12 +1,35 @@
+unless window.requestAnimationFrame
+  window.requestAnimationFrame = (->
+    window.webkitRequestAnimationFrame or window.mozRequestAnimationFrame or window.oRequestAnimationFrame or window.msRequestAnimationFrame or (callback, element) ->
+      window.setTimeout callback, 1000 / 60
+  )()
+
+
 g = window
 $("body").bind "sass_loadeds", =>
   g.fivetastic.dev_mode() # comment this in production
   $("body").unbind "page_loaded"
   
-
   console.log "app coffee loaded"
+  
+  
+  vid = document.getElementById("video")
+  vid.muted =  true
+  vid.play()
+  
+  $("video").on "loadeddata", ->
+    $(this).css("-moz-transform","rotateY(20deg) rotateX(20deg) rotateZ(5deg)")
+    $(this).css "-webkit-transform", "rotate3d(1, 3, 0.5, 50deg)"
 
-
+  rotate = ->
+    $("video").css "-webkit-transform", "rotate3d(6, 2, 0.5, 90deg)"
+    
+  back = ->
+    $("video").css "-webkit-transform", "rotate3d(1, 3, 0.5, 50deg)"
+  
+  $("video").hover rotate, back
+      
+    
   utils = {
     random_choose: (array) ->
       rand_order = ->
@@ -19,10 +42,18 @@ $("body").bind "sass_loadeds", =>
   scene = null
   renderer = null
   camera = null
+  imageContext = null
+  vid = null
+  texture = null
+  controls = null
+  clock = null
+  controls_enabled = null
+  stats = null
+  
   setup = ->
     container = $ "#webgl"
-    renderer = new THREE.WebGLRenderer()
-
+    # renderer = new THREE.WebGLRenderer()
+    renderer = new THREE.CanvasRenderer()
 
     width = $(window).width()
     heigth = $(window).height()
@@ -35,17 +66,58 @@ $("body").bind "sass_loadeds", =>
     container.append renderer.domElement
 
     controls_enabled = false
-    # controls_enabled = true
+    controls_enabled = true
 
     if controls_enabled
       clock = new THREE.Clock()
       controls = new THREE.FirstPersonControls(camera)
       controls.lookSpeed = 0.1
       controls.movementSpeed = 1000
+    
+    stats = new Stats()
+    $("#content").prepend stats.domElement
+    
+  animate = ->
+    requestAnimationFrame animate
+    render()
+    stats.update()
+
+  render = ->
+    controls.update  clock.getDelta() if controls_enabled
+    if vid.readyState == vid.HAVE_ENOUGH_DATA
+      imageContext.drawImage vid, 0, 0
+      texture.needsUpdate = true if texture
+    renderer.render scene, camera
       
   draw = ->
     # color = $.xcolor.random()
+    width = 640
+    height = 360
+        
+    image = document.createElement 'canvas'
+    image.width = width
+    image.height = height
+
+    imageContext = image.getContext '2d'
+    imageContext.fillStyle = '#000000'
+    imageContext.fillRect 0, 0, width, height
+    texture = new THREE.Texture image
+    texture.minFilter = THREE.LinearFilter
+    texture.magFilter = THREE.LinearFilter
+
+    material = new THREE.MeshBasicMaterial { map: texture, overdraw: true }
     
+    plane = new THREE.PlaneGeometry width, height, 4, 4 
+    mesh = new THREE.Mesh plane, material
+    # scale = 1
+    # mesh.scale.x = scale
+    # mesh.scale.y = scale
+    # mesh.scale.z = scale
+    scene.add mesh
+    
+    
+    
+        
     cube = ->
       color = utils.random_choose $.xcolor.tetrad('#CC9999')
       x = 600
@@ -59,22 +131,22 @@ $("body").bind "sass_loadeds", =>
       scene.add cub
       cub
       
-    cube()  
-    cub = cube()
-    cub.rotation.x = Math.PI/6
-    cub.rotation.y = Math.PI/6
-
-  render = ->
-    renderer.render scene, camera  
+    # cube()  
+    # cub = cube()
+    # cub.rotation.x = Math.PI/6
+    # cub.rotation.y = Math.PI/6
 
   video = ->
-    document.getElementById("video").muted =  true
-    $("#video").show()
+    vid = document.getElementById("video")
+    vid.muted =  true
+    vid.play()
+    # $("#video").show()
 
-  video()
-  setup()
-  draw()
-  render()
+  # video()
+  # setup()
+  # draw()
+  # animate()
+  # render()
   # draw
   # 
   # 
@@ -208,11 +280,11 @@ $("body").bind "sass_loadeds", =>
 
 
   # // enable shadows on the renderer
-  # renderer.shadowMapEnabled = true;
+  # renderer.shadowMapEnabled = true
   # 
   # // enable shadows for a light
-  # light.castShadow = true;
+  # light.castShadow = true
   # 
   # // enable shadows for an object
-  # litCube.castShadow = true;
-  # litCube.receiveShadow = true;
+  # litCube.castShadow = true
+  # litCube.receiveShadow = true
