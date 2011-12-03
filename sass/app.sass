@@ -15,6 +15,12 @@
 
 !side_margin = 4%
 
+@font-face
+  font-family: Lemon
+  src: url('/fonts/lemon.ttf')
+
+
+
 body
   background: #fefefe
   font-family: Georgia, Helvetica, Arial, Verdana
@@ -33,19 +39,27 @@ body
   margin: 0 !side_margin
   
 h1 
+  font-family: Lemon, Arial
   img
-    width: 300px
+    // width: 300px full logo
+    // # rv logo
+    width: 90px 
     margin: 0 !side_margin
 
-nav
+.nav_cont
   background: !main_c
-  padding: 8px 20px
-  margin: 8px 0 !side_margin
+  text-align: center
+  
+nav
+  width: 80%
+  padding: 5px 20px
+  margin: 5px 0 10px
+  width: 80%
   a
-    margin: 0 10px 0 0
     color: !text_color2
-    padding: 4px 10px
+    padding: 8px 4%
     +rounded
+    display: inline-block
     background: !main_c
   a:hover  
     color: #ddd
@@ -96,6 +110,9 @@ a, h2, h3, span
   background: !main_c
   
 #webgl
+ 
+#rvideos
+ width: 100%
  
 video
   -webkit-transform-style: preserve-3d
