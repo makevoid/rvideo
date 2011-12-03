@@ -36,15 +36,20 @@ body
 
 
 #content
-  margin: 0 !side_margin
+  margin: 0 
+  //!side_margin
   
 h1 
-  font-family: Lemon, Arial
-  img
+  span
+    font-family: Lemon, Arial
+    float: left
+    margin: 0 0 20px 10px
+  img  
+    float: left
     // width: 300px full logo
     // # rv logo
     width: 90px 
-    margin: 0 !side_margin
+    margin: 0 0 0 !side_margin
 
 .nav_cont
   background: !main_c
@@ -109,18 +114,31 @@ a, h2, h3, span
 .box, nav a
   background: !main_c
   
+#debug
+  position: absolute
+  top: 0 
+  right: 0
+  padding: 5px 10px
+  background: #fff
+  box-shadow: 3px, 3px, #999
+  font-size: 1em
+  
 #webgl
  
 #rvideos
- width: 100%
+  width: 100%
+  -webkit-perspective: 600px
+  -webkit-transform-origin: 100% 50%
+  position: relative
  
 video
-  -webkit-transform-style: preserve-3d
+  position: absolute
   -webkit-transition-property: -webkit-transform
-  -webkit-transition-duration: 1s
-  -moz-transform-style: preserve-3d
-  -moz-transition-property: -moz-transform
-  -moz-transition-duration: 1s
+  -webkit-transition-duration: 0.35s
+  //-moz-transform-style: preserve-3d
+  //-moz-transition-property: -moz-transform
+  //-moz-transition-duration: 0.25s
   background: #333
   display: block
   border: 1px solid #333
+  width: 60%

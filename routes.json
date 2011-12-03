@@ -1,5 +1,7 @@
 {
-  "/":          "index",
-  "/page1":     "page1",
-  "/page2":     "page2"
+  "/":              "index",
+  "/interviews":    "interviews",
+  "/music":         "music",
+  "/art":           "art",
+  "/social":        "social",
 }
