@@ -13,16 +13,16 @@ class FiveTastic
     @body = body if body
     
     @hamls.push { name: "layout", loaded: false }
-    @hamls.push { name: "index", loaded: false }
-    
     this.load_page "layout"
     
     if this.index_path()
+      @hamls.push { name: "index", loaded: false }
       this.load_page "index"
     else
       this.routes_get (routes) =>
         path = window.location.pathname
         page = this.page_from_path routes, path
+        @hamls.push { name: page, loaded: false }
         this.load_page page
     
       
@@ -39,7 +39,6 @@ class FiveTastic
   times: 0
   
   render: ->
-    # console.log @layout
     page = this.haml @page
     html = this.haml(@layout, {yield: page})
     $("head").append $(html).find("#head").html()
@@ -276,6 +275,7 @@ class FiveTastic
           <!-- <div class='screen_vsplit'>vsplit</div> -->
           <div class='screen_full'>full</div>
           <div class='spacer'></div>
+          <div class='discard'>discard</div>
           <div class='load'>load</div>
         </nav>
         <div class='close'>x</div>
@@ -313,6 +313,9 @@ class FiveTastic
 
       $("#editor .load").on           "click.btns", =>
         this.load()
+        
+      $("#editor .discard").on        "click.btns", =>
+        this.discard()
 
       $("#editor .screen_hsplit").on  "click.btns", =>
         this.hsplit()
@@ -375,14 +378,16 @@ class FiveTastic
       @code = localStorage["#{@name}_content"]
       @updated = localStorage["#{@name}_updated"]
       this.close()
-      
       this.render()
     
+    discard: ->
+      localStorage.removeItem "#{@name}_content"
+      localStorage.removeItem "#{@name}_updated"
+      
     save: ->  
       @code = @codemirror.getValue()
       localStorage["#{@name}_content"] = @code
       localStorage["#{@name}_updated"] = new Date().valueOf()
-    
       this.handle_type()
       fivetastic.render()
 
