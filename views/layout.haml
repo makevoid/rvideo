@@ -12,7 +12,8 @@
           / %a{ href: "/" } RiotVan
           / RV
           %img{ src: "/images/rv_logo.png" }
-          VIDEO
+          %span VIDEO
+        .clear
         .nav_cont
           %nav.tags
             %a{ href: "/" } New
@@ -21,7 +22,8 @@
             %a{ href: "/art" } Art
             %a{ href: "/social" } Social
       .clear
-          
+      #debug
+      
       #content
         #webgl
         != yield

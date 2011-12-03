@@ -1,9 +1,17 @@
 %div
   / %h2 New
-
+  / vimeo "http://player.vimeo.com/play_redirect?clip_id=23112806&sig=9cff8690585f5517b8b8b5967d016d3b&time=1322885849&quality=hd&codecs=H264,VP8,VP6&type=moogaloop_local&embed_location="  
+  / yt       "http://o-o.preferred.seabone-mil1.v11.lscache1.c.youtube.com/videoplayback?sparams=id%2Cexpire%2Cip%2Cipbits%2Citag%2Csource%2Cratebypass%2Ccp&fexp=912204%2C905241%2C911501%2C910102&itag=43&ip=79.0.0.0&signature=3BBA706002FF0583EBCAD0E434837DEA431D03F1.AA0830542F15834156438A213AC451BB683FD950&sver=3&ratebypass=yes&source=youtube&expire=1322902712&key=yt1&ipbits=8&cp=U0hRR1lLUF9GTENOMV9RRVRIOjg3ejlaM3dHZ211&id=68f12be6ef356688" 
   #rvideos
     %video#video
-      %source{ src: "http://o-o.preferred.seabone-mil1.v11.lscache1.c.youtube.com/videoplayback?sparams=id%2Cexpire%2Cip%2Cipbits%2Citag%2Csource%2Cratebypass%2Ccp&fexp=912204%2C905241%2C911501%2C910102&itag=43&ip=79.0.0.0&signature=12B67182C22D947C2FCA4E16DFD7C3BB78EFDC42.28FC5F6723C2C31EF6D7E07BDAA814605976E9E1&sver=3&ratebypass=yes&source=youtube&expire=1322816312&key=yt1&ipbits=8&cp=U0hRR1hMVF9GTENOMV9QRlhEOjg3ejlaMnhLY211&id=68f12be6ef356688" }
+      %source{ src: "/tmp/out.mp4" }      
+    %video#video_next
+      %source{ src: "/tmp/out.mp4" }
+    %video#video_next2
+      %source{ src: "/tmp/out.mp4" }
+    %video#video_prev
+      %source{ src: "/tmp/out.mp4" }
+  
   
   -# <video id="video" autoplay style="display:none">
   -#   <source src="textures/sintel.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
