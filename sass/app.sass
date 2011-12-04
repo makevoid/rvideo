@@ -58,7 +58,7 @@ h1
 nav
   width: 80%
   padding: 5px 20px
-  margin: 5px 0 10px
+  margin: 5px 0 0
   width: 80%
   a
     color: !text_color2
@@ -131,17 +131,27 @@ a, h2, h3, span
   //  -webkit-transform-origin: 100% 50%
   -webkit-transform-origin: 50% 50%
   position: relative
+  background: #111
 
+!duration = 0.8s
 
-video
+video  
+  // TODO: not working?
+  // border: 1px solid #AAA
+  // -webkit-box-shadow: 10px, 10px, 2px, #FFF
   position: absolute
+  //-webkit-transform-style: preserve-3d
   -webkit-transition-property: -webkit-transform
-  -webkit-transition-duration: 0.8s
+  -webkit-transition-duration: !duration
   -webkit-transition-timing-function: ease-in-out
-  -moz-transform-style: preserve-3d
-  //-moz-transition-property: -moz-transform
-  //-moz-transition-duration: 0.25s
+  -webkit-backface-visibility: hidden
+  //-moz-transform-style: preserve-3d
+  -moz-transition-property: -moz-transform
+  -moz-transition-duration: !duration
+  -moz-transition-timing-function: ease-in-out
+  -moz-backface-visibility: hidden
   background: #333
   display: block
   border: 1px solid #333
   width: 75%
+  

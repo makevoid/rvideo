@@ -1,18 +1,24 @@
 %div
   / %h2 New
-  / vimeo "http://player.vimeo.com/play_redirect?clip_id=23112806&sig=9cff8690585f5517b8b8b5967d016d3b&time=1322885849&quality=hd&codecs=H264,VP8,VP6&type=moogaloop_local&embed_location="  
-  / yt       "http://o-o.preferred.seabone-mil1.v11.lscache1.c.youtube.com/videoplayback?sparams=id%2Cexpire%2Cip%2Cipbits%2Citag%2Csource%2Cratebypass%2Ccp&fexp=912204%2C905241%2C911501%2C910102&itag=43&ip=79.0.0.0&signature=3BBA706002FF0583EBCAD0E434837DEA431D03F1.AA0830542F15834156438A213AC451BB683FD950&sver=3&ratebypass=yes&source=youtube&expire=1322902712&key=yt1&ipbits=8&cp=U0hRR1lLUF9GTENOMV9RRVRIOjg3ejlaM3dHZ211&id=68f12be6ef356688" 
+  / vimeo
+  -# video = "http://av.vimeo.com/80441/102/48873745.mp4?token=1322964659_1a8ae7b614d41cf85ce5d2d1533f6"  
+
+
+  -# video = "http://player.vimeo.com/play_redirect?quality=hd&codecs=h264&clip_id=23112806&time=1322963115&sig=33388a9e1545a8de9ae47d149022e818&type=html5_desktop_local"
+  
   #rvideos
     %video#video
-      %source{ src: "/tmp/out.mp4" }      
+      %source{ src: video }
     %video
-      %source{ src: "/tmp/out.mp4" }
+      %source{ src: video }
     %video
-      %source{ src: "/tmp/out.mp4" }
+      %source{ src: video }
     %video
-      %source{ src: "/tmp/out.mp4" }
+      %source{ src: video }
     %video
-      %source{ src: "/tmp/out.mp4" }
+      %source{ src: video }
+      
+
   
   
   -# <video id="video" autoplay style="display:none">

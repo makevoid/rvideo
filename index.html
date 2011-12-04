@@ -4,6 +4,14 @@
     <title>loading...</title>
     <script src="/fivetastic/vendor/all.js"></script>
     <script src="/vendor/js/xcolor.js"></script>
+    <script>
+    // before load
+    var video;
+    if (navigator.userAgent.match(/\) Version\//)) // safari
+      video = "/tmp/out.mp4"
+    else
+      video = "/tmp/out.webm"
+    </script>
     <!-- 
     <script src="/vendor/js/three.js"></script>
     <script src="/vendor/js/stats.js"></script>
