@@ -1,13 +1,10 @@
-unless window.requestAnimationFrame
-  window.requestAnimationFrame = (->
-    window.webkitRequestAnimationFrame or window.mozRequestAnimationFrame or window.oRequestAnimationFrame or window.msRequestAnimationFrame or (callback, element) ->
-      window.setTimeout callback, 1000 / 60
-  )()
-
-transf = (elem, tx, ty, tz, rx, ry, rz) ->
+mkpos = (tx, ty, tz, rx, ry, rz) ->
+  { tx: tx, ty: ty, tz: tz, rx: rx, ry: ry, rz: rz }
+  
+transf = (elem, pos) ->
   transform = ""
-  transform += "translate3d(#{tx}px, #{ty}px, #{tz}px)"
-  transform += "rotateX(#{rx}deg) rotateY(#{ry}deg) rotateZ(#{rz}deg)"
+  transform += "translate3d(#{pos.tx}px, #{pos.ty}px, #{pos.tz}px)"
+  transform += "rotateX(#{pos.rx}deg) rotateY(#{pos.ry}deg) rotateZ(#{pos.rz}deg)"
   elem.style.webkitTransform = transform
 
 g = window
@@ -16,74 +13,72 @@ $("body").bind "sass_loadeds", =>
   # g.fivetastic.dev_mode() # comment this in production
   $("body").unbind "page_loaded"
   
-  console.log "app coffee loaded"
-  
   height = $(window).height() - $("header").height()
   
-  vid = document.getElementById("video")
-  vid.play()
+  videos = _($("#rvideos video")).map (el) -> el
+  
+  _(videos).each (vid) ->
+    vid.play()
+    $(vid).on "loadeddata", ->
+      vid.muted =  true
   
   $("#rvideos").height height #TODO: calculate from browser height
   rvideos = $("#rvideos")
-  video = $("#rvideos video:first")
-  vid = document.getElementById("video")
-  width = $("#rvideos").width()
   # height = $("#rvideos").height()
-  center = { 
-    x: width/2, 
-    y: height/2  
-  }
+
   
   cur_evt = null
   
-  vid_next = document.getElementById("video_next")
-  vid_next2 = document.getElementById("video_next2")
-  vid_prev = document.getElementById("video_prev")
-  
   y = 80
-  width = $(window).width() * 0.6
+  total_w = $(window).width()
+  width = total_w * 0.6
   w2 = (width - 585) / 5
   
+  
+  pos_front = null
+  pos_next  = null
+  pos_prev  = null
+  pos_back  = null
+  pos_back2  = null
+  
+  update_pos = ->
+    total_w = $(window).width()
+    width = total_w * 0.6
+    wid = total_w/2-width/1.6
+  
+    factor = 1.12
+    
+    pos_front = mkpos wid, y, 0, 0, 0, 0
+    pos_next = mkpos wid+width*factor,   y, -width/2, 0, 45, 0
+    pos_prev = mkpos wid-width*factor, y, -width/2, 0, -45, 0
+    pos_back = mkpos wid, y, -width*2, 0, 180, 0
+    pos_back2 = mkpos wid, y, -width*2, 0, -180, 0
+  
   anim =  ->
+    update_pos()
+    
+    transf videos[0], pos_front
+    transf videos[1], pos_next
+    transf videos[2], pos_back
+    transf videos[3], pos_back2
+    transf videos[4], pos_prev
   
+
     
-    transf vid, 0, y, -100, 0, 1, 0
-    
-    transf vid_next, width/2+w2, y, -400, 0, 90, 0
-    
-    
-    transf vid_next2, width/2+w2+100, y, -600, 0, 0, 0
-    transf vid_prev, -width+300, y, 200, 0, 90, 0 
+  $("#rvideos").on "click", ->  
+    update_pos()
+    videos[5] = videos[0]
+    videos.shift()
+    transf videos[0], pos_front
+    transf videos[1], pos_next
+    transf videos[2], pos_back
+    transf videos[3], pos_back2
+    transf videos[4], pos_prev
+      
+  anim()
   
-  
-  video.on "loadeddata", ->
-    vid.muted =  true
-    # $("#rvideos").on "mousemove", (evt) -> 
-      # cur_evt = evt
-      # # _.defer -> 
-      # anim(evt)
-    $("#video").on "click", ->  
-      transf vid_prev, -width*2, y, 200, 0, 90, 0
-      $(vid_prev).on "webkitTransitionEnd", ->
-        transf vid, -width+300, y, 200, 0, 90, 0
-        $(vid).on "webkitTransitionEnd", ->
-          transf vid_next, 0, 80, -100, 0, 1, 0
-          $(vid_next).on "webkitTransitionEnd", ->
-            transf vid_next2, width/2+w2, y, -400, 0, 90, 0
-      
-      
-    # evt = { offsetX: center.x, offsetY: center.y  }
-    anim()
-    
-    $(window).on "resize", anim
-      
-  # rotate = ->
-  #   $("video").css "-webkit-transform", "rotate3d(6, 2, 0.5, 90deg)"
-  #   
-  # back = ->
-  #   $("video").css "-webkit-transform", "rotate3d(1, 3, 0.5, 50deg)"
-  # 
-  # $("video").hover rotate, back
+  $(window).on "resize", anim
+
       
     
   utils = {
