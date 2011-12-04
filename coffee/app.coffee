@@ -6,7 +6,6 @@ transf = (elem, pos) ->
   transform += "translate3d(#{pos.tx}px, #{pos.ty}px, #{pos.tz}px)"
   transform += "rotateX(#{pos.rx}deg) rotateY(#{pos.ry}deg) rotateZ(#{pos.rz}deg)"
   elem.style.webkitTransform = transform
-  elem.style.mozTransform = transform
 
   
 resize = ->
