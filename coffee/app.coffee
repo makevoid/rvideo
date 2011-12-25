@@ -106,17 +106,23 @@ $("body").bind "sass_loadeds", =>
 
   switch_to_img = (elem) ->
 
-  activate = (vid) ->
-    front = $(front_video())
-    play_video vid, "muted"
+
+  reassign_video = (vid) ->
+    console.log $(videos[0])
+    $(front_video()).remove()
     videos[0] = vid
+
+  activate = (vid) ->
     _(videos).each (vid, idx) ->
       tag = vid.nodeName.toLowerCase()
       if tag == "video"
         vid.pause()
-    $(videos[0]).on "loadeddata", ->
-      front.remove()
-    videos[0].play()
+      
+
+
+    play_video vid, "muted"
+    # if navigator.userAgent.match(/Chrome/)
+    reassign_video(vid)
 
   next = ->  
     $("#rvideos").off "click"
