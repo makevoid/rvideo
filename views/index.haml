@@ -7,16 +7,21 @@
   -# video = "http://player.vimeo.com/play_redirect?quality=hd&codecs=h264&clip_id=23112806&time=1322963115&sig=33388a9e1545a8de9ae47d149022e818&type=html5_desktop_local"
   
   #rvideos
-    %video#video
+    - img = "/images/videos/1.png"
+    %video#video{ "data-img": img }
       %source{ src: video }
-    %video
-      %source{ src: video }
-    %video
-      %source{ src: video }
-    %video
-      %source{ src: video }
-    %video
-      %source{ src: video }
+    %img{ src: img, "data-video": video }
+    %img{ src: img, "data-video": video }
+    %img{ src: img, "data-video": video }
+    %img{ src: img, "data-video": video }
+    -# %video
+    -#   %source{ src: video }
+    -# %video
+    -#   %source{ src: video }
+    -# %video
+    -#   %source{ src: video }
+    -# %video
+    -#   %source{ src: video }
       
 
   

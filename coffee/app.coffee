@@ -12,6 +12,12 @@ resize = ->
   height = $(window).height() - $("header").height()
   $("#rvideos").height height #TODO: calculate from browser height
 
+play_video = (video, opt) -> 
+  video.play()
+  $(video).on "loadeddata", ->
+    video.muted =  true if opt == "muted"
+
+
 g = window
 
 $("body").bind "sass_loadeds", =>
@@ -20,13 +26,13 @@ $("body").bind "sass_loadeds", =>
   
   
   
-  videos = _($("#rvideos video")).map (el) -> el
+  videos = _($("#rvideos video, #rvideos img")).map (el) -> el
+  
+
   
   _(videos).each (vid, idx) ->
     if idx <= 0
-      vid.play()
-      $(vid).on "loadeddata", ->
-        vid.muted =  true
+      play_video(vid, "muted")
         
   resize()
   rvideos = $("#rvideos")
@@ -46,6 +52,9 @@ $("body").bind "sass_loadeds", =>
   pos_prev  = null
   pos_back  = null
   pos_back2  = null
+  
+  front_video = ->
+    videos[0]
   
   update_pos = ->
     total_w = $(window).width()
@@ -79,15 +88,49 @@ $("body").bind "sass_loadeds", =>
     resize()
 
   
+  switch_to_video = (elem, pos=pos_front) ->
+    $(elem).css("zIndex", 20)
+    video_src = $(elem).data("video")
+    uid = Math.round(Math.random() * 10000000)
+    video = $("<video id='#{uid}'><source src='#{video_src}'></source></video>")
+    $("#rvideos").append(video)
+    # video.css("opacity", 0)
+    vid = $("##{uid}")[0]
+    transf vid, pos_next
+    setTimeout ->
+      transf vid, pos_front
+    , 10
+    vid
+
+    # video.css("opacity", 1)
+
+  switch_to_img = (elem) ->
+
+  activate = (vid) ->
+    front = $(front_video())
+    play_video vid, "muted"
+    videos[0] = vid
+    _(videos).each (vid, idx) ->
+      tag = vid.nodeName.toLowerCase()
+      if tag == "video"
+        vid.pause()
+    $(videos[0]).on "loadeddata", ->
+      front.remove()
+    videos[0].play()
+
   next = ->  
     $("#rvideos").off "click"
     update_pos()
-    videos[5] = videos[0]
-    videos.shift()
+    videos[5] = front_video()
+    videos.shift()    
     transf_all()
+    
+    vid = switch_to_video front_video()
+    
     $("video:first").on "webkitTransitionEnd", (evt) ->
       $("video:first").off "webkitTransitionEnd"
       bind_click()
+      activate vid
       # anim()
       
   bind_click = ->
